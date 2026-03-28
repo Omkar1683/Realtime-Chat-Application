@@ -4,6 +4,9 @@ import { Form } from 'react-router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { completeOnboarding } from '../lib/api.js';
+import { CameraIcon, Shuffle, ShuffleIcon } from "lucide-react";
+import { LANGUAGES } from '../constants/index.js';
+
 const OnboardingPage = () => {
   
   const {authUser} = useAuthUser();
@@ -27,6 +30,9 @@ const OnboardingPage = () => {
     e.preventDefault();
     onboardingMutation(formState);
   }
+  const handleRandomAvatar= () =>{
+
+  }
   return (
     <div className='min-h-screen bg-base-100 flex items-center justify-center p-4'>
    <div className='card bg-base-200 w-full max-w-3xl shadow-xl'>
@@ -44,7 +50,66 @@ const OnboardingPage = () => {
           </div>
          )}
          </div>
+         <div className='flex items-center gap-2'>
+          <button type='button' onClick={handleRandomAvatar} className='btn btn-accent'>
+        <ShuffleIcon className="size-4 mr-2"/>
+            Generate Random Avatar
+          </button>
+         </div>
        </div>
+        <div className='form-control'>
+          <label className="label">
+            <span className='label-text'>Full Name</span>
+          </label>
+          <input type="text"
+          name='fullName'
+          value={formState.fullName}
+          onChange={(e)=>setFormState({...formState,fullName:e.target.value})}
+          className='input input-bordered w-full'
+          placeholder='Your ful name' />
+         </div>
+         <div className='form-control'>
+          <label className="label">
+            <span className='label-text'>Bio</span>
+          </label>
+          <textarea name="bio" 
+          value={formState.bio}
+          onChange={(e)=>setFormState({...formState,bio:e.target.value})}
+          className='textarea textarea-bordered h-24'
+          placeholder='Tell others about yourself and your language goals'/>
+         </div>
+         <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+          <div className='form-control'>
+            <label className='label'>
+              <span className='label-text'>Native Language</span>
+            </label>
+            <select name="nativeLangauge" 
+            value={formState.nativeLanguage}
+            onChange={(e)=>setFormState({...formState,nativeLanguage:e.target.value})}
+            className='select select-bordered w-full'>
+            <option value="">Select your native language</option>
+            {LANGUAGES.map((lang)=>(
+              <option key={`native-${lang}`} value={lang.toLowerCase()}>{lang}</option>
+            ))}
+            </select>
+          </div>
+          <div className='form-control'>
+            <label className='label'>
+              <span className='label-text'>Learning Language</span>
+            </label>
+            <select name="learningLanguage" 
+            value={formState.learningLanguage}
+            onChange={(e)=>setFormState({...formState,learningLanguage:e.target.value})}
+            className='select select-bordered w-full'>
+              <option value="">Select language you're learning</option>
+              {LANGUAGES.map((lang)=>(
+                <option key={`learning-${lang}`} value={lang.toLowerCase()}>
+                  {lang}
+                </option>
+              ))}
+            </select>
+          </div>
+         </div>
       </form>
     </div>
    </div>
