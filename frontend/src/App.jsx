@@ -9,7 +9,7 @@ import CallPage from "./pages/CallPage.jsx";
 import ChatPage from "./pages/ChatPage.jsx";
 import OnboardingPage from "./pages/OnboardingPage.jsx";
 import toast, {Toaster} from "react-hot-toast";
-
+import Layout from './components/Layout.jsx';
 
 import PageLoader from './components/PageLoader.jsx';
 
@@ -24,10 +24,10 @@ const isOnboarded = authUser?.isOnboarded
 
     if(isLoading) return <PageLoader/>   
     return (
-  <div className='h-screen' data-theme="night">
+  <div className='h-screen' data-theme="forest">
    
    <Routes>
-    <Route path="/" element={isAuthenticated && isOnboarded ?( <HomePage/>):(<Navigate to={!isAuthenticated ? "/login":"/onboarding"}/>)}/>
+    <Route path="/" element={isAuthenticated && isOnboarded ?(<Layout showSidebar={true}><HomePage/></Layout>):(<Navigate to={!isAuthenticated ? "/login":"/onboarding"}/>)}/>
     <Route path="/signup" element={!isAuthenticated?<SignUpPage/>:<Navigate to= { isOnboarded?"/":"/onboarding"}/>}/>
     <Route path="/login" element={!isAuthenticated?<LoginPage/>:<Navigate to= { isOnboarded?"/":"/onboarding"}/>}/>
     <Route path="/notifications" element={isAuthenticated?<NotificationsPage/>:<Navigate to="/login"/>}/>
