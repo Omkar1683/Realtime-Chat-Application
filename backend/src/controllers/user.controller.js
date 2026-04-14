@@ -1,4 +1,5 @@
 import FriendRequest from "../models/FriendRequest.js";
+import User from "../models/User.js";
 
 export async function getRecommendedUsers(req,res) {
 
@@ -9,7 +10,7 @@ export async function getRecommendedUsers(req,res) {
         const recommendedUsers =await User.find({
             $and:[
                 {_id:{$ne: currentUserId}}, // exclude current user
-                {$id:{$nin: currentUser.friends}},// exclude current user's friends
+                {_id:{$nin: currentUser.friends}},// exclude current user's friends
                 {isOnboarded: true}
             ]
         })
@@ -131,7 +132,7 @@ export async function getOutgoingFriendReqs(req,res) {
             sender:req.user.id,
             status:"pending",
 
-        }).populate("sender","fullName profilePic nativeLanguage learningLanguage");
+        }).populate("recipient","fullName profilePic nativeLanguage learningLanguage");
 
         res.status(200).json(outgoingRequests);
     } catch (error) {
